@@ -1,4 +1,4 @@
-var transaction = require("../models").Transaction;
+var transaction = require("../db/models").Transaction;
 
 module.exports = {
    async listDesc(req, res){

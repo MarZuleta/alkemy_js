@@ -1,14 +1,38 @@
 import React from "react";
 import { useState } from "react";
 import Axios from "axios";
-import Button from '@material-ui/core/Button';
+import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
+import { makeStyles } from "@material-ui/core/styles";
+import MenuItem from "@material-ui/core/MenuItem";
+
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    "& > *": {
+      margin: theme.spacing(1),
+      width: "25ch",
+    },
+  },
+}));
+
+const types = [
+  {
+    value: 'IN',
+    label: 'In'
+  },
+  {
+    value:'OUT',
+    label: 'Out'
+  }
+]
 
 const InputTransaction = () => {
   const [trans, setTrans] = useState({
     concept: "",
     amount: "",
     date: "",
-    type: "",
+    type: ""
   });
 
   const submit = async (e) => {
@@ -30,43 +54,66 @@ const InputTransaction = () => {
 
   const changeField = (e) => {
     const newTrans = { ...trans };
-    newTrans[e.target.className] = e.target.value;
+    newTrans[e.target.name] = e.target.value;
     setTrans(newTrans);
   };
+
+  const classes = useStyles();
 
   return (
     <>
       <h1>Budget Manager</h1>
-      <form onSubmit={(e) => submit(e)}>
-        <input
+      
+      <form className={classes.root} onSubmit={(e) => submit(e)}>
+        <TextField
           onChange={(e) => changeField(e)}
-          className="concept"
-          type="text"
-          placeholder="Concept"
+          name="concept"
+          required
+          label="Concept"
           value={trans.concept}
+          variant="filled"
         />
-        <input
+        <TextField
           onChange={(e) => changeField(e)}
-          className="amount"
-          type="text"
-          placeholder="Amount"
+          required
+          name="amount"
+          type="number"
+          variant="filled"
+          label="Amount"
           value={trans.amount}
         />
-        <input
+        <TextField
           onChange={(e) => changeField(e)}
-          className="date"
+          required
+          name="date"
+          variant="filled"
           type="date"
-          placeholder="Date"
+          label="Date"
+          InputLabelProps={{
+            shrink: true,
+          }}
           value={trans.date}
         />
-        <input
+
+        <TextField
           onChange={(e) => changeField(e)}
-          className="type"
-          type="text"
-          placeholder="Type"
+          required
+          select
+          label="Type"
+          name="type"
+          variant="filled"
           value={trans.type}
-        />
-        <Button variant="contained" color="primary">Add Transaction</Button>
+        >
+          {types.map((option) => (
+            <MenuItem key={option.value} value={option.value}>
+              {option.label}
+            </MenuItem>
+          ))}
+        </TextField>
+
+        <Button type="submit" variant="contained" color="primary">
+          Add Transaction
+        </Button>
       </form>
     </>
   );
