@@ -1,12 +1,9 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useContext} from "react";
 import { withStyles, makeStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
+import {Button,Table,TableBody, TableCell, TableContainer, TableHead, TableRow, Paper} from '@material-ui/core';
+
+import {Context} from '../App';
+import EditTransaction from "./EditTransaction";
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -34,10 +31,25 @@ const useStyles = makeStyles({
   },
 });
 const ListTransactions = () => {
+
+  const {refresh, toggleRefresh} = useContext(Context);
   const [transactions, setTrans] = useState({
     transes: [],
     currentBudget: 0
   });
+
+  const deleteTrans = async (id) => {
+    try {
+      const deletedTrans = await fetch(`http://localhost:3000/${id}`, {
+        method: "DELETE"
+      });
+      console.log(deletedTrans);
+      toggleRefresh();
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
 
   const getTrans = async () => {
     try{
@@ -65,7 +77,7 @@ const ListTransactions = () => {
 
   useEffect(() => {
     getTrans();
-  }, []);
+  }, [refresh]);
 
   const classes = useStyles();
   return (
@@ -87,15 +99,15 @@ const ListTransactions = () => {
         </TableHead>
         <TableBody>
           {(transactions.transes).map((trans) => (
-            <StyledTableRow key={trans.concept}>
+            <StyledTableRow key={trans.id}>
               <StyledTableCell component="th" scope="row">
                 {trans.concept}
               </StyledTableCell>
               <StyledTableCell align="right">{trans.type === 'IN' ? trans.amount : -trans.amount}</StyledTableCell>
-              <StyledTableCell align="right">{trans.date}</StyledTableCell>
+              <StyledTableCell align="right">{trans.date.split("T")[0]}</StyledTableCell>
               <StyledTableCell align="right">{trans.type}</StyledTableCell>
-              <StyledTableCell align="right">Edit</StyledTableCell>
-              <StyledTableCell align="right">Delete</StyledTableCell>
+              <StyledTableCell align="right"><EditTransaction/></StyledTableCell>
+              <StyledTableCell align="right"><Button variant="contained" color="secondary" onClick={() => deleteTrans(trans.id)}>Delete</Button></StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>

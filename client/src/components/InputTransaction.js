@@ -1,10 +1,11 @@
-import React from "react";
+import React, {useContext} from "react";
 import { useState } from "react";
 import Axios from "axios";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
 import MenuItem from "@material-ui/core/MenuItem";
+import {Context} from '../App';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -28,6 +29,7 @@ const types = [
 ]
 
 const InputTransaction = () => {
+  const {refresh, toggleRefresh} = useContext(Context);
   const [trans, setTrans] = useState({
     concept: "",
     amount: "",
@@ -50,6 +52,7 @@ const InputTransaction = () => {
       date: "",
       type: "",
     });
+    toggleRefresh();
   };
 
   const changeField = (e) => {
