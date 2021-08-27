@@ -106,7 +106,7 @@ const ListTransactions = () => {
               <StyledTableCell align="right">{trans.type === 'IN' ? trans.amount : -trans.amount}</StyledTableCell>
               <StyledTableCell align="right">{trans.date.split("T")[0]}</StyledTableCell>
               <StyledTableCell align="right">{trans.type}</StyledTableCell>
-              <StyledTableCell align="right"><EditTransaction/></StyledTableCell>
+              <StyledTableCell align="right"><EditTransaction type={trans.type} id={trans.id}/></StyledTableCell>
               <StyledTableCell align="right"><Button variant="contained" color="secondary" onClick={() => deleteTrans(trans.id)}>Delete</Button></StyledTableCell>
             </StyledTableRow>
           ))}

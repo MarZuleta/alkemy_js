@@ -65,7 +65,7 @@ const InputTransaction = () => {
 
   return (
     <>
-      <h1>Budget Manager</h1>
+      
       
       <form className={classes.root} onSubmit={(e) => submit(e)}>
         <TextField

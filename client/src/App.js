@@ -1,9 +1,14 @@
 import './App.css';
-import InputTransaction from './components/InputTransaction';
-import ListTransactions from './components/ListTransactions';
+import Transactions from './components/Transactions';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route
+} from "react-router-dom";
+import Home from './components/Home';
 import { createContext, useState } from 'react';
-
 const Context = createContext();
+
 
 function App() {
   const [refresh, setRefresh] = useState(false);
@@ -12,12 +17,27 @@ function App() {
   }
   return (
     <>
-    <Context.Provider value={{refresh, toggleRefresh}}>
-    <InputTransaction></InputTransaction>
-    <ListTransactions></ListTransactions>
-    </Context.Provider>
+    <Router>
+        <Switch>
+          <Route path="/transactions">
+          <Context.Provider value={{refresh, toggleRefresh}}>
+            <Transactions />
+            </Context.Provider>
+          </Route>
+          {/* <Route path="/users">
+            <Users />
+          </Route> */}
+          <Route path="/">
+          <Context.Provider value={{refresh, toggleRefresh}}>
+            <Home />
+            </Context.Provider>
+          </Route>
+        </Switch>
+    </Router>
+    
     </>
   );
 }
+
 export {Context};
 export default App;
