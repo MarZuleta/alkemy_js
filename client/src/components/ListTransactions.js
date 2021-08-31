@@ -7,11 +7,14 @@ import EditTransaction from "./EditTransaction";
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
-    backgroundColor: theme.palette.common.black,
-    color: theme.palette.common.white,
+    backgroundColor: "#665E52",
+    fontFamily: 'Titillium Web, sans-serif',
+    color: "#FFF7EB",
+    fontSize: '1.6rem',
   },
   body: {
-    fontSize: 14,
+    fontFamily: 'Titillium Web, sans-serif',
+    fontSize: '1.5rem',
   },
 }))(TableCell);
 
@@ -30,13 +33,16 @@ const useStyles = makeStyles({
     minWidth: 700,
   },
 });
-const ListTransactions = () => {
+
+
+
+const ListTransactions = (props) => {
 
   const {refresh, toggleRefresh} = useContext(Context);
-  const [transactions, setTrans] = useState({
-    transes: [],
-    currentBudget: 0
-  });
+  // const [transactions, setTrans] = useState({
+  //   transes: [],
+  //   currentBudget: 0
+  // });
 
   const deleteTrans = async (id) => {
     try {
@@ -51,38 +57,38 @@ const ListTransactions = () => {
   };
 
 
-  const getTrans = async () => {
-    try{
-      const response = await fetch("http://localhost:3000/");
-      let latestData = await response.json();
-      let newBudget = 0;
-      latestData.forEach(data => {
-        if(data.type === 'IN'){
-          newBudget += data.amount;
-        } else{
-          newBudget -= data.amount;
-        }
-      });
-      if(latestData.length > 10){
-        latestData = latestData.slice(0, 10);
-      }
-      let newTrans = {...transactions};
-      newTrans['transes'] = latestData;
-      newTrans['currentBudget'] = newBudget; 
-      setTrans(newTrans);
-    } catch(err){
-        console.log(err.message);
-    }
-  };
+  // const getTrans = async () => {
+  //   try{
+  //     const response = await fetch("http://localhost:3000/");
+  //     let latestData = await response.json();
+  //     let newBudget = 0;
+  //     latestData.forEach(data => {
+  //       if(data.type === 'IN'){
+  //         newBudget += data.amount;
+  //       } else{
+  //         newBudget -= data.amount;
+  //       }
+  //     });
+  //     if(latestData.length > 10){
+  //       latestData = latestData.slice(0, 10);
+  //     }
+  //     let newTrans = {...transactions};
+  //     newTrans['transes'] = latestData;
+  //     newTrans['currentBudget'] = newBudget; 
+  //     setTrans(newTrans);
+  //   } catch(err){
+  //       console.log(err.message);
+  //   }
+  // };
 
-  useEffect(() => {
-    getTrans();
-  }, [refresh]);
+  // useEffect(() => {
+  //   getTrans();
+  // }, [refresh]);
 
   const classes = useStyles();
   return (
       <>
-        <h2>Current budget: {transactions.currentBudget}</h2>
+        
         <h1>Transaction History</h1>
 
         <TableContainer component={Paper}>
@@ -98,12 +104,12 @@ const ListTransactions = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {(transactions.transes).map((trans) => (
+          {(props.transactions.transes).map((trans) => (
             <StyledTableRow key={trans.id}>
               <StyledTableCell component="th" scope="row">
                 {trans.concept}
               </StyledTableCell>
-              <StyledTableCell align="right">{trans.type === 'IN' ? trans.amount : -trans.amount}</StyledTableCell>
+              <StyledTableCell align="right">$ {trans.type === 'IN' ? trans.amount : -trans.amount}</StyledTableCell>
               <StyledTableCell align="right">{trans.date.split("T")[0]}</StyledTableCell>
               <StyledTableCell align="right">{trans.type}</StyledTableCell>
               <StyledTableCell align="right"><EditTransaction type={trans.type} id={trans.id}/></StyledTableCell>

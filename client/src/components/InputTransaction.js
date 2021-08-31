@@ -1,20 +1,35 @@
-import React, {useContext} from "react";
-import { useState } from "react";
+import React, {useContext, useState} from "react";
 import Axios from "axios";
-import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
+import { Button, Modal, TextField, MenuItem } from '@material-ui/core';
 import { makeStyles } from "@material-ui/core/styles";
-import MenuItem from "@material-ui/core/MenuItem";
 import {Context} from '../App';
 
 
+// const useStyles = makeStyles((theme) => ({
+//   root: {
+//     "& > *": {
+//       margin: theme.spacing(1),
+//       width: "25ch",
+//     },
+//   },
+// }));
+
 const useStyles = makeStyles((theme) => ({
+  paper: {
+    position: 'absolute',
+    width: 400,
+    backgroundColor: theme.palette.background.paper,
+    border: '2px solid #000',
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
+    borderRadius: '7%',
+  },
   root: {
     "& > *": {
       margin: theme.spacing(1),
       width: "25ch",
     },
-  },
+  }
 }));
 
 const types = [
@@ -28,7 +43,8 @@ const types = [
   }
 ]
 
-const InputTransaction = () => {
+const SimpleModal = () => {
+  const [open, setOpen] = useState(false);
   const {refresh, toggleRefresh} = useContext(Context);
   const [trans, setTrans] = useState({
     concept: "",
@@ -36,6 +52,40 @@ const InputTransaction = () => {
     date: "",
     type: ""
   });
+  const classes = useStyles();
+
+    const modalStyle = {
+      top: '50%',
+      left: '50%',
+      transform: `translate(-50%, -50%)`
+    };
+    const buttonStyle = {
+      // size: '2rem',
+      fontFamily: 'Titillium Web, sans-serif'
+    };
+    const modalTitleStyle = {
+      display:'flex',
+      justifyContent: 'center'
+    }
+    const handleOpen = () => {
+      setOpen(true);
+      setTrans({
+        concept: "",
+        amount: "",
+        date: "",
+        type: "",
+      });
+    };
+  
+    const handleClose = () => {
+      setOpen(false);
+      setTrans({
+        concept: "",
+        amount: "",
+        date: "",
+        type: "",
+      });
+    };
 
   const submit = async (e) => {
     e.preventDefault();
@@ -53,7 +103,9 @@ const InputTransaction = () => {
       type: "",
     });
     toggleRefresh();
+    handleClose();
   };
+
 
   const changeField = (e) => {
     const newTrans = { ...trans };
@@ -61,12 +113,11 @@ const InputTransaction = () => {
     setTrans(newTrans);
   };
 
-  const classes = useStyles();
-
-  return (
-    <>
+  const body = (
+    
       
-      
+      <div style={modalStyle} className={classes.paper}>
+        <h2 id="simple-modal-title" style={modalTitleStyle}>Add transaction</h2>
       <form className={classes.root} onSubmit={(e) => submit(e)}>
         <TextField
           onChange={(e) => changeField(e)}
@@ -117,9 +168,38 @@ const InputTransaction = () => {
         <Button type="submit" variant="contained" color="primary">
           Add Transaction
         </Button>
+
+        <Button onClick={handleClose} variant="contained" color="secondary">
+          Cancel
+        </Button>
       </form>
-    </>
+      </div>
+  );
+  return (
+    <div>
+      <div>
+        <Button size={"large"} style={buttonStyle} variant="contained" color="primary" onClick={handleOpen}>
+        ADD TRANSACTION
+      </Button>
+      </div>
+      
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="simple-modal-title"
+        aria-describedby="simple-modal-description"
+      >
+        {body}
+      </Modal>
+    </div>
   );
 };
+function InputTransaction(props) {
+  return (
+      <div>
+          <SimpleModal/>
+      </div>
+  )
+}
 
 export default InputTransaction;
