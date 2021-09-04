@@ -1,13 +1,13 @@
 import React, {useEffect, useState, useContext} from "react";
 import { withStyles, makeStyles } from '@material-ui/core/styles';
-import {Button,Table,TableBody, TableCell, TableContainer, TableHead, TableRow, Paper} from '@material-ui/core';
-
+import {Table,TableBody, TableCell, TableContainer, TableHead, TableRow, Paper} from '@material-ui/core';
+import deleteLogo from '../images/delete.png';
 import {Context} from '../App';
 import EditTransaction from "./EditTransaction";
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
-    backgroundColor: "#665E52",
+    backgroundColor: "#000000",
     fontFamily: 'Titillium Web, sans-serif',
     color: "#FFF7EB",
     fontSize: '1.6rem',
@@ -33,6 +33,7 @@ const useStyles = makeStyles({
     minWidth: 700,
   },
 });
+
 
 
 
@@ -84,12 +85,18 @@ const ListTransactions = (props) => {
   // useEffect(() => {
   //   getTrans();
   // }, [refresh]);
+  // const buttonStyle = {
+  //   background: deleteLogo,
+  // }
 
+  const deleteStyle = {
+    filter: 'invert(16%) sepia(99%) saturate(7338%) hue-rotate(333deg) brightness(95%) contrast(102%)',
+  }
   const classes = useStyles();
   return (
       <>
         
-        <h1>Transaction History</h1>
+        <h1>Recent transactions</h1>
 
         <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="customized table">
@@ -109,11 +116,11 @@ const ListTransactions = (props) => {
               <StyledTableCell component="th" scope="row">
                 {trans.concept}
               </StyledTableCell>
-              <StyledTableCell align="right">$ {trans.type === 'IN' ? trans.amount : -trans.amount}</StyledTableCell>
+              <StyledTableCell align="right">$ {trans.type === 'IN' ? trans.amount.toLocaleString(undefined, {maximumFractionDigits:2}) : -trans.amount.toLocaleString(undefined, {maximumFractionDigits:2})}</StyledTableCell>
               <StyledTableCell align="right">{trans.date.split("T")[0]}</StyledTableCell>
               <StyledTableCell align="right">{trans.type}</StyledTableCell>
               <StyledTableCell align="right"><EditTransaction type={trans.type} id={trans.id}/></StyledTableCell>
-              <StyledTableCell align="right"><Button variant="contained" color="secondary" onClick={() => deleteTrans(trans.id)}>Delete</Button></StyledTableCell>
+              <StyledTableCell align="right"><input style={deleteStyle} type='image' alt='Delete' src={deleteLogo} onClick={() => deleteTrans(trans.id)}/></StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>

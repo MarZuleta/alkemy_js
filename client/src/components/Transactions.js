@@ -1,33 +1,43 @@
 import React, { useState, useContext, useEffect} from "react";
 import { withStyles, makeStyles } from '@material-ui/core/styles';
-import {Button,Table,TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TextField, MenuItem} from '@material-ui/core';
+import {Table,TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, TextField, MenuItem} from '@material-ui/core';
 import Header from './Header';
 import EditTransaction from "./EditTransaction";
 import {Context} from '../App';
+import './Transactions.css';
+import deleteLogo from '../images/delete.png';
 
 const StyledTableCell = withStyles((theme) => ({
-    head: {
-      backgroundColor: theme.palette.common.black,
-      color: theme.palette.common.white,
-    },
-    body: {
-      fontSize: 14,
-    },
-  }))(TableCell);
-  
-  const StyledTableRow = withStyles((theme) => ({
-    root: {
-      '&:nth-of-type(odd)': {
-        backgroundColor: theme.palette.action.hover,
-      },
-    },
-  }))(TableRow);
+  head: {
+    backgroundColor: "#000000",
+    fontFamily: 'Titillium Web, sans-serif',
+    color: "#FFF7EB",
+    fontSize: '1.6rem',
+  },
+  body: {
+    fontFamily: 'Titillium Web, sans-serif',
+    fontSize: '1.5rem',
+  },
+}))(TableCell);
 
-  const useStyles = makeStyles({
-    table: {
-      minWidth: 700,
+const StyledTableRow = withStyles((theme) => ({
+  root: {
+    '&:nth-of-type(odd)': {
+      backgroundColor: theme.palette.action.hover,
     },
-  });
+  },
+}))(TableRow);
+
+
+
+const useStyles = makeStyles({
+  table: {
+    minWidth: 700,
+  },
+});
+const deleteStyle = {
+  filter: 'invert(16%) sepia(99%) saturate(7338%) hue-rotate(333deg) brightness(95%) contrast(102%)',
+}
 
   const types = [
     {
@@ -40,6 +50,10 @@ const StyledTableCell = withStyles((theme) => ({
     }
   ]
   
+  const selectStyle ={
+    fontFamily: 'Titillium Web, sans-serif',
+    fontSize: '1.5rem',
+  };
 
 function Transactions() {
     const [transactions, setTrans] = useState({
@@ -79,9 +93,9 @@ function Transactions() {
     const classes = useStyles();
     return (
         
-        <div>
+        <>
             <Header></Header>
-        
+         <div className='trans-history'>         
         <h1>Transaction History</h1>
         <TextField
           onChange={(e) => {
@@ -90,6 +104,7 @@ function Transactions() {
           }}
           required
           select
+          style={selectStyle}
           label="Type"
           name="type"
           variant="filled"
@@ -119,18 +134,18 @@ function Transactions() {
               <StyledTableCell component="th" scope="row">
                 {trans.concept}
               </StyledTableCell>
-              <StyledTableCell align="right">{trans.type === 'IN' ? trans.amount : -trans.amount}</StyledTableCell>
+              <StyledTableCell align="right">${trans.type === 'IN' ? trans.amount : -trans.amount}</StyledTableCell>
               <StyledTableCell align="right">{trans.date.split("T")[0]}</StyledTableCell>
               <StyledTableCell align="right"><EditTransaction type={trans.type} id={trans.id}/></StyledTableCell>
-              <StyledTableCell align="right"><Button variant="contained" color="secondary" onClick={() => deleteTrans(trans.id)}>Delete</Button></StyledTableCell>
+              <StyledTableCell align="right"><input style={deleteStyle} type='image' alt='Delete' src={deleteLogo} onClick={() => deleteTrans(trans.id)}/></StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>
       </Table>
     </TableContainer>
       
-  
-        </div>
+    </div>  
+        </>
     );
 }
 

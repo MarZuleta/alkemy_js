@@ -7,22 +7,32 @@
     font-family: 'Titillium Web', sans-serif;   
 }
 .flex-center h1 {
-    font-size: 3rem;
+    color: #0b0cac;
+    font-size: 6rem;
+    padding-top: 1.5rem;
+    margin-bottom: 1rem;
 }
 
 .flex-center h2 {
-    font-size: 2rem;
+    font-size: 3rem;
+    margin-top: 3rem;
     margin-bottom: 0.1rem;
 }
 .flex-center h3 {
-    font-size: 5rem;
-    margin: 1rem auto 2rem;
+    font-size: 6rem;
+    margin: 1.3rem auto 2rem;
 }
 
+.trans-list {
+    width: 80%;
+    margin-left: 10rem;
+    margin-bottom: 5rem;
+}
 
 .input-btn {
     display: flex;
     justify-content: center;
+    
     /* width: 3rem;
     height:1.5rem; */
 }

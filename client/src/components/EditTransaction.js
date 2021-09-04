@@ -3,6 +3,7 @@ import { Button, Modal, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import Axios from "axios";
 import {Context} from '../App';
+import editLogo from '../images/edit.png';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -20,6 +21,10 @@ const useStyles = makeStyles((theme) => ({
     },
   }
 }));
+
+const editStyle = {
+  filter: 'invert(10%) sepia(82%) saturate(5672%) hue-rotate(241deg) brightness(87%) contrast(113%)',
+}
 
 function SimpleModal(props) {
     const [open, setOpen] = useState(false);
@@ -129,9 +134,7 @@ function SimpleModal(props) {
   
     return (
       <div>
-        <Button variant="contained" color="primary" onClick={handleOpen}>
-          Edit
-        </Button>
+        <input type='image' alt='Edit' src={editLogo} variant="contained" style={editStyle} onClick={handleOpen}/>
         <Modal
           open={open}
           onClose={handleClose}

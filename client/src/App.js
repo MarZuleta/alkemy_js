@@ -21,6 +21,7 @@ function App() {
         <Switch>
           <Route path="/transactions">
           <Context.Provider value={{refresh, toggleRefresh}}>
+            
             <Transactions />
             </Context.Provider>
           </Route>

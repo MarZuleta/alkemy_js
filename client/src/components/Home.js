@@ -1,19 +1,26 @@
-import React, {useContext, useState, useEffect} from 'react';
+import React, {useContext, useState, useEffect, useRef} from 'react';
 import Header from './Header';
 import InputTransaction from './InputTransaction';
 import ListTransactions from './ListTransactions';
-import Styles from './Home.css';
-import {Context} from '../App'
+import './Home.css';
+import {Context} from '../App';
+import CountUp from 'react-countup';
 
 
 function Home() {
-    const {refresh} = useContext(Context);
+    const {refresh, toggleRefresh} = useContext(Context);
     const [transactions, setTrans] = useState({
         transes: [],
         currentBudget: 0
       });
-      
-
+const count = useRef(null);
+const onComplete = () => {
+  if(transactions.currentBudget < 0){
+    count.current.style.color = '#f50057';
+  } else{
+    count.current.style.color = '#000000';
+  };
+}
     const getTrans = async () => {
         try{
           const response = await fetch("http://localhost:3000/");
@@ -37,24 +44,44 @@ function Home() {
             console.log(err.message);
         }
       };
+
       useEffect(() => {
         getTrans();
+        // toRed();
       }, [refresh]);
+
     
     return (
         <>
             
     <Header></Header>
     <div className='flex-center'>
-    <h1>Budget Manager</h1>
-    <h2>Current budget:</h2>
-    <h3>${transactions.currentBudget}</h3>
+    <h1>Budgetman</h1>
+    <h2>My balance is:</h2> 
+    <h3 ref={count}>
+      <CountUp
+    className="current-budget"
+    start={0}
+    end={transactions.currentBudget}
+    duration={2.75}
+    useEasing={true}
+    useGrouping={true}
+    separator=","
+    decimals={2}
+    decimal="."
+    prefix="$ "
+    onComplete={onComplete}
+  />
+  </h3>
+      {/* ${transactions.currentBudget.toLocaleString(undefined, {maximumFractionDigits:2})} */}
     </div>
     <div className='input-btn'>
          <InputTransaction></InputTransaction>
     </div>
-   
-    <ListTransactions transactions={transactions}></ListTransactions>
+   <div className='trans-list'>
+     <ListTransactions transactions={transactions}>
+     </ListTransactions>
+     </div>
     
         </>
     )

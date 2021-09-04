@@ -1,0 +1,11 @@
+.trans-history {
+    width: 80%;
+    margin-left: 10rem;
+    margin-top: 6rem;
+    margin-bottom: 5rem;
+}
+
+.trans-history h1 {
+    text-align: center;
+    font-size: 3rem;
+}

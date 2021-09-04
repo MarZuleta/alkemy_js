@@ -5,6 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import {Context} from '../App';
 
 
+
 // const useStyles = makeStyles((theme) => ({
 //   root: {
 //     "& > *": {
@@ -61,7 +62,11 @@ const SimpleModal = () => {
     };
     const buttonStyle = {
       // size: '2rem',
-      fontFamily: 'Titillium Web, sans-serif'
+      backgroundColor: 'rgb(11, 12, 172)',
+      color: 'white',
+      fontFamily: 'Titillium Web, sans-serif',
+      fontWeight: 'bold',
+      fontSize: '1.5rem'
     };
     const modalTitleStyle = {
       display:'flex',
@@ -178,7 +183,7 @@ const SimpleModal = () => {
   return (
     <div>
       <div>
-        <Button size={"large"} style={buttonStyle} variant="contained" color="primary" onClick={handleOpen}>
+        <Button size={"large"} style={buttonStyle} variant="contained" onClick={handleOpen}>
         ADD TRANSACTION
       </Button>
       </div>
