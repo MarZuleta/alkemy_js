@@ -1,96 +1,93 @@
-import React, {useContext, useState} from "react";
+import React, { useContext, useState } from "react";
 import Axios from "axios";
-import { Button, Modal, TextField, MenuItem } from '@material-ui/core';
+import { Button, Modal, TextField, MenuItem } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import {Context} from '../App';
+import { Context } from "../App";
 
-
-
-// const useStyles = makeStyles((theme) => ({
-//   root: {
-//     "& > *": {
-//       margin: theme.spacing(1),
-//       width: "25ch",
-//     },
-//   },
-// }));
-
+// Modal styles
 const useStyles = makeStyles((theme) => ({
   paper: {
-    position: 'absolute',
+    position: "absolute",
     width: 400,
     backgroundColor: theme.palette.background.paper,
-    border: '2px solid #000',
+    border: "2px solid #000",
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
-    borderRadius: '7%',
+    borderRadius: "7%",
   },
   root: {
     "& > *": {
       margin: theme.spacing(1),
       width: "25ch",
     },
-  }
+  },
 }));
+const modalStyle = {
+  top: "50%",
+  left: "50%",
+  transform: `translate(-50%, -50%)`,
+};
+const buttonStyle = {
+  // size: '2rem',
+  backgroundColor: "rgb(11, 12, 172)",
+  color: "white",
+  fontFamily: "Titillium Web, sans-serif",
+  fontWeight: "bold",
+  fontSize: "1.5rem",
+};
+const modalTitleStyle = {
+  display: "flex",
+  justifyContent: "center",
+};
 
+
+
+
+// Select types
 const types = [
   {
-    value: 'IN',
-    label: 'In'
+    value: "IN",
+    label: "In",
   },
   {
-    value:'OUT',
-    label: 'Out'
-  }
-]
+    value: "OUT",
+    label: "Out",
+  },
+];
 
+
+//Modal component
 const SimpleModal = () => {
   const [open, setOpen] = useState(false);
-  const {refresh, toggleRefresh} = useContext(Context);
+  const { toggleRefresh } = useContext(Context);
   const [trans, setTrans] = useState({
     concept: "",
     amount: "",
     date: "",
-    type: ""
+    type: "",
   });
   const classes = useStyles();
 
-    const modalStyle = {
-      top: '50%',
-      left: '50%',
-      transform: `translate(-50%, -50%)`
-    };
-    const buttonStyle = {
-      // size: '2rem',
-      backgroundColor: 'rgb(11, 12, 172)',
-      color: 'white',
-      fontFamily: 'Titillium Web, sans-serif',
-      fontWeight: 'bold',
-      fontSize: '1.5rem'
-    };
-    const modalTitleStyle = {
-      display:'flex',
-      justifyContent: 'center'
-    }
-    const handleOpen = () => {
-      setOpen(true);
-      setTrans({
-        concept: "",
-        amount: "",
-        date: "",
-        type: "",
-      });
-    };
   
-    const handleClose = () => {
-      setOpen(false);
-      setTrans({
-        concept: "",
-        amount: "",
-        date: "",
-        type: "",
-      });
-    };
+  const handleOpen = () => {
+    setOpen(true);
+    setTrans({
+      concept: "",
+      amount: "",
+      date: "",
+      type: "",
+    });
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    setTrans({
+      concept: "",
+      amount: "",
+      date: "",
+      type: "",
+    });
+  };
 
   const submit = async (e) => {
     e.preventDefault();
@@ -111,7 +108,6 @@ const SimpleModal = () => {
     handleClose();
   };
 
-
   const changeField = (e) => {
     const newTrans = { ...trans };
     newTrans[e.target.name] = e.target.value;
@@ -119,10 +115,10 @@ const SimpleModal = () => {
   };
 
   const body = (
-    
-      
-      <div style={modalStyle} className={classes.paper}>
-        <h2 id="simple-modal-title" style={modalTitleStyle}>Add transaction</h2>
+    <div style={modalStyle} className={classes.paper}>
+      <h2 id="simple-modal-title" style={modalTitleStyle}>
+        Add transaction
+      </h2>
       <form className={classes.root} onSubmit={(e) => submit(e)}>
         <TextField
           onChange={(e) => changeField(e)}
@@ -178,16 +174,22 @@ const SimpleModal = () => {
           Cancel
         </Button>
       </form>
-      </div>
+    </div>
   );
+
   return (
     <div>
       <div>
-        <Button size={"large"} style={buttonStyle} variant="contained" onClick={handleOpen}>
-        ADD TRANSACTION
-      </Button>
+        <Button
+          size={"large"}
+          style={buttonStyle}
+          variant="contained"
+          onClick={handleOpen}
+        >
+          ADD TRANSACTION
+        </Button>
       </div>
-      
+
       <Modal
         open={open}
         onClose={handleClose}
@@ -199,12 +201,12 @@ const SimpleModal = () => {
     </div>
   );
 };
-function InputTransaction(props) {
+function InputTransaction() {
   return (
-      <div>
-          <SimpleModal/>
-      </div>
-  )
+    <div>
+      <SimpleModal />
+    </div>
+  );
 }
 
 export default InputTransaction;

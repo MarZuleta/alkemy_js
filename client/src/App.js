@@ -11,6 +11,7 @@ const Context = createContext();
 
 
 function App() {
+  // Refresh state context serves as state updater across components, though there is a cleaner way to organize this...
   const [refresh, setRefresh] = useState(false);
   const toggleRefresh = () => {
     setRefresh(refresh => !refresh);
@@ -21,7 +22,6 @@ function App() {
         <Switch>
           <Route path="/transactions">
           <Context.Provider value={{refresh, toggleRefresh}}>
-            
             <Transactions />
             </Context.Provider>
           </Route>

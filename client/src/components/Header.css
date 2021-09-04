@@ -3,13 +3,13 @@ nav {
 }
 
 ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    background-color: #c9c9c9;
-    overflow: hidden;
-    display: flex;
-    justify-content: space-between;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  background-color: #c9c9c9;
+  overflow: hidden;
+  display: flex;
+  justify-content: space-between;
 }
 
 /* #logo {
@@ -46,18 +46,18 @@ ul {
 img {
   width: 30%;
   height: auto;
-} 
+}
+
 #logo {
   padding-top: 1rem;
 }
 
 
 li a {
-    color: #0b0cac;
-    font-size: 2rem;
-    font-weight: bold;
-    text-align: center;
-    padding: 1.5rem 2.25rem 1rem;
-    text-decoration: none;
-  }
-
+  color: #0b0cac;
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  padding: 1.5rem 2.25rem 1rem;
+  text-decoration: none;
+}

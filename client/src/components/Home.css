@@ -1,11 +1,10 @@
-
-
 .flex-center {
     display: flex;
     align-items: center;
     flex-direction: column;
-    font-family: 'Titillium Web', sans-serif;   
+    font-family: 'Titillium Web', sans-serif;
 }
+
 .flex-center h1 {
     color: #0b0cac;
     font-size: 6rem;
@@ -18,6 +17,7 @@
     margin-top: 3rem;
     margin-bottom: 0.1rem;
 }
+
 .flex-center h3 {
     font-size: 6rem;
     margin: 1.3rem auto 2rem;
@@ -32,7 +32,7 @@
 .input-btn {
     display: flex;
     justify-content: center;
-    
+
     /* width: 3rem;
     height:1.5rem; */
 }
