@@ -1,6 +1,8 @@
 # Alkemy JS
 JS Challenge FullStack
 
+This project serves as a personal budget manager, allowing the user to add, remove, edit and view transactions, as well as the current budget available. It consists on a Home page, in which the latest 10 transactions can be viewed in order of most recent, and a Transactions page where the full transaction history is located.
+
 ## PERN Stack
 
 ### Requirements:
