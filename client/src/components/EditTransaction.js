@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { Button, Modal, TextField } from "@material-ui/core";
+import { Button, Modal, TextField, MenuItem } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import Axios from "axios";
 import { Context } from "../App";
@@ -29,6 +29,32 @@ const modalStyle = {
   transform: `translate(-50%, -50%)`,
 };
 
+const categories = [
+  {
+    value: "Food",
+    label: "Food"
+  },
+  {
+    value: "Work",
+    label: "Work"
+  },
+  {
+    value: "Health",
+    label: "Health"
+  },
+  {
+    value: "House",
+    label: "House"
+  },
+  {
+    value: "Books",
+    label: "Books"
+  },
+  {
+    value: "Entertainment",
+    label: "Entertainment"
+  }
+]
 
 // Edit icon modify color style
 const editStyle = {
@@ -44,6 +70,7 @@ function SimpleModal(props) {
     amount: "",
     date: "",
     type: props.type,
+    category: ""
   });
   const classes = useStyles();
 
@@ -55,6 +82,7 @@ function SimpleModal(props) {
       amount: "",
       date: "",
       type: props.type,
+      category: ""
     });
   };
 
@@ -65,6 +93,7 @@ function SimpleModal(props) {
       amount: "",
       date: "",
       type: props.type,
+      category: ""
     });
   };
   const changeField = (e) => {
@@ -81,6 +110,7 @@ function SimpleModal(props) {
       amount: trans.amount,
       date: trans.date,
       type: trans.type,
+      category: trans.category
     });
     console.log(res);
     setTrans({
@@ -88,6 +118,7 @@ function SimpleModal(props) {
       amount: "",
       date: "",
       type: "",
+      category: ""
     });
     toggleRefresh();
     handleClose();
@@ -126,6 +157,21 @@ function SimpleModal(props) {
           }}
           value={trans.date}
         />
+        <TextField
+          onChange={(e) => changeField(e)}
+          required
+          select
+          label="Category"
+          name="category"
+          variant="filled"
+          value={trans.category}
+        >
+          {categories.map((option) => (
+            <MenuItem key={option.value} value={option.value}>
+              {option.label}
+            </MenuItem>
+          ))}
+        </TextField>
 
         <Button type="submit" variant="contained" color="primary">
           Apply

@@ -16,6 +16,7 @@ import EditTransaction from "./EditTransaction";
 import { Context } from "../App";
 import "./Transactions.css";
 import deleteLogo from "../images/delete.png";
+import Axios from "axios";
 
 // All table styles
 
@@ -63,6 +64,32 @@ const types = [
     label: "Out",
   },
 ];
+const categories = [
+  {
+    value: "Food",
+    label: "Food"
+  },
+  {
+    value: "Work",
+    label: "Work"
+  },
+  {
+    value: "Health",
+    label: "Health"
+  },
+  {
+    value: "House",
+    label: "House"
+  },
+  {
+    value: "Books",
+    label: "Books"
+  },
+  {
+    value: "Entertainment",
+    label: "Entertainment"
+  }
+];
 
 const selectStyle = {
   fontFamily: "Titillium Web, sans-serif",
@@ -74,6 +101,7 @@ function Transactions() {
     transes: [],
   });
   const [type, setType] = useState("IN");
+  const [category, setCategory] = useState('');
 
   const { refresh, toggleRefresh } = useContext(Context);
 
@@ -81,11 +109,20 @@ function Transactions() {
   // GET HTTP 
   const getTrans = async () => {
     try {
+      if(category === ''){
       const response = await fetch(`http://localhost:3000/${type}`);
       let latestData = await response.json();
       let newTrans = { ...transactions };
       newTrans["transes"] = latestData;
       setTrans(newTrans);
+      } else{
+        const response = await Axios.get(`http://localhost:3000/trans`, {params: {type: type, category: category}});
+        let latestData = await response.json();
+      let newTrans = { ...transactions };
+      newTrans["transes"] = latestData;
+      setTrans(newTrans);
+      }
+      
     } catch (err) {
       console.log(err.message);
     }
@@ -111,8 +148,9 @@ function Transactions() {
   return (
     <>
       <Header></Header>
-      <div className="trans-history">
+      <div className="trans-history"> 
         <h1>Transaction History</h1>
+        
         <TextField
           onChange={(e) => {
             setType(e.target.value);
@@ -132,6 +170,24 @@ function Transactions() {
             </MenuItem>
           ))}
         </TextField>
+        
+        <TextField
+          onChange={(e) => {
+          setCategory(e.target.value);
+          toggleRefresh();}}
+          required
+          select
+          label="Category"
+          name="category"
+          variant="filled"
+          value={category}
+        >
+          {categories.map((option) => (
+            <MenuItem key={option.value} value={option.value}>
+              {option.label}
+            </MenuItem>
+          ))}
+        </TextField>
 
         <TableContainer component={Paper}>
           <Table className={classes.table} aria-label="customized table">
@@ -140,6 +196,7 @@ function Transactions() {
                 <StyledTableCell>Concept</StyledTableCell>
                 <StyledTableCell align="right">Amount</StyledTableCell>
                 <StyledTableCell align="right">Date</StyledTableCell>
+                <StyledTableCell align="right">Category</StyledTableCell>
                 <StyledTableCell align="right">Edit</StyledTableCell>
                 <StyledTableCell align="right">Delete</StyledTableCell>
               </TableRow>
@@ -162,6 +219,7 @@ function Transactions() {
                   <StyledTableCell align="right">
                     {trans.date.split("T")[0]}
                   </StyledTableCell>
+                  <StyledTableCell align="right">{trans.category}</StyledTableCell>
                   <StyledTableCell align="right">
                     <EditTransaction type={trans.type} id={trans.id} />
                   </StyledTableCell>

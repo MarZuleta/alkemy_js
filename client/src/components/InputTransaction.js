@@ -55,6 +55,33 @@ const types = [
   },
 ];
 
+const categories = [
+  {
+    value: "Food",
+    label: "Food"
+  },
+  {
+    value: "Work",
+    label: "Work"
+  },
+  {
+    value: "Health",
+    label: "Health"
+  },
+  {
+    value: "House",
+    label: "House"
+  },
+  {
+    value: "Books",
+    label: "Books"
+  },
+  {
+    value: "Entertainment",
+    label: "Entertainment"
+  }
+]
+
 
 //Modal component
 const SimpleModal = () => {
@@ -65,6 +92,7 @@ const SimpleModal = () => {
     amount: "",
     date: "",
     type: "",
+    category: ""
   });
   const classes = useStyles();
 
@@ -76,6 +104,7 @@ const SimpleModal = () => {
       amount: "",
       date: "",
       type: "",
+      category: ""
     });
   };
 
@@ -86,6 +115,7 @@ const SimpleModal = () => {
       amount: "",
       date: "",
       type: "",
+      category: ""
     });
   };
 
@@ -96,6 +126,7 @@ const SimpleModal = () => {
       amount: trans.amount,
       date: trans.date,
       type: trans.type,
+      category: trans.category
     });
     console.log(res);
     setTrans({
@@ -103,6 +134,7 @@ const SimpleModal = () => {
       amount: "",
       date: "",
       type: "",
+      category: ""
     });
     toggleRefresh();
     handleClose();
@@ -160,6 +192,22 @@ const SimpleModal = () => {
           value={trans.type}
         >
           {types.map((option) => (
+            <MenuItem key={option.value} value={option.value}>
+              {option.label}
+            </MenuItem>
+          ))}
+        </TextField>
+
+        <TextField
+          onChange={(e) => changeField(e)}
+          required
+          select
+          label="Category"
+          name="category"
+          variant="filled"
+          value={trans.category}
+        >
+          {categories.map((option) => (
             <MenuItem key={option.value} value={option.value}>
               {option.label}
             </MenuItem>

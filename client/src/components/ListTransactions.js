@@ -82,6 +82,7 @@ const ListTransactions = (props) => {
               <StyledTableCell align="right">Amount</StyledTableCell>
               <StyledTableCell align="right">Date</StyledTableCell>
               <StyledTableCell align="right">Type</StyledTableCell>
+              <StyledTableCell align="right">Category</StyledTableCell>
               <StyledTableCell align="right">Edit</StyledTableCell>
               <StyledTableCell align="right">Delete</StyledTableCell>
             </TableRow>
@@ -105,9 +106,11 @@ const ListTransactions = (props) => {
                   {trans.date.split("T")[0]}
                 </StyledTableCell>
                 <StyledTableCell align="right">{trans.type}</StyledTableCell>
+                <StyledTableCell align="right">{trans.category}</StyledTableCell>
                 <StyledTableCell align="right">
                   <EditTransaction type={trans.type} id={trans.id} />
                 </StyledTableCell>
+                
                 <StyledTableCell align="right">
                   <input
                     style={deleteStyle}
